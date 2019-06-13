@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package api;
+
+import "google/protobuf/struct.proto";
+
+message Coordinates {
+    fixed64 latitude = 1;
+    fixed64 longitude = 2;
+}
+
+enum PropertyType {
+    Detached = 0;
+    SemiDetached = 1;
+    Terraced = 2;
+    FlatMaisonette = 3;
+}
+
+message Address {
+    string fullAddress = 1;
+    string postcode = 2;
+}
+
+message Images {
+    repeated string floorPlan = 1;
+    repeated string photos = 2;
+}
+
+message Attributes {
+    uint64 numBedrooms = 1;
+    uint64 numBathrooms = 2;
+    bool parking = 3;
+    string parkingType = 4;
+}
+
+message SampleRequest {
+    string address = 1;
+    bool wantErr = 2;
+}
+
+message SampleResponse {
+    Coordinates coordinates = 1;
+    Address address = 2;
+    Attributes attributes = 3;
+    PropertyType propertyType = 4;
+    Images Images = 5;
+    int32 Price = 6;
+    repeated google.protobuf.Struct historicalSales = 7;
+}
+
+service SampleService {
+    rpc GetSampleSummary (SampleRequest) returns (SampleResponse);
+}
